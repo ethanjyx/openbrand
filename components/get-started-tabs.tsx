@@ -5,7 +5,7 @@ import { useState } from "react";
 const tabs = ["With API Key", "Self Hosting"] as const;
 type Tab = (typeof tabs)[number];
 
-export function GetStartedTabs() {
+export function GetStartedTabs({ isLoggedIn = false }: { isLoggedIn?: boolean }) {
   const [active, setActive] = useState<Tab>("With API Key");
 
   return (
@@ -30,24 +30,22 @@ export function GetStartedTabs() {
         ))}
       </div>
 
-      {active === "With API Key" ? <ApiKeyContent /> : <SelfHostingContent />}
+      {active === "With API Key" ? <ApiKeyContent isLoggedIn={isLoggedIn} /> : <SelfHostingContent />}
     </section>
   );
 }
 
-function ApiKeyContent() {
+function ApiKeyContent({ isLoggedIn }: { isLoggedIn: boolean }) {
   return (
     <div>
       <p className="text-neutral-500 mb-3 text-sm">
-        Use the hosted API with your API key:
+        Use the hosted API with your API key for programmatic access.
       </p>
-      <pre className="p-4 rounded-xl bg-neutral-900 text-neutral-100 text-sm overflow-x-auto font-mono leading-relaxed mb-4">{`curl https://openbrand.dev/api/extract?url=https://stripe.com \\
-  -H "Authorization: Bearer YOUR_API_KEY"`}</pre>
       <a
-        href="/login"
+        href={isLoggedIn ? "/dashboard" : "/login"}
         className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-neutral-900 text-white text-sm font-medium hover:bg-neutral-800 transition-colors"
       >
-        Login to get API key
+        {isLoggedIn ? "Manage API keys" : "Login to get API key"}
       </a>
     </div>
   );
