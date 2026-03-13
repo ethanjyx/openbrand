@@ -20,6 +20,10 @@ export function UrlForm({ initialUrl }: { initialUrl?: string }) {
       normalized = `https://${normalized}`;
     }
 
+    const newUrl = new URL(window.location.href);
+    newUrl.searchParams.set("url", normalized);
+    window.history.replaceState(null, "", newUrl.toString());
+
     setLoading(true);
     try {
       const res = await fetch("/api/extract", {
