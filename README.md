@@ -3,6 +3,7 @@
 </p>
 
 <h1 align="center">OpenBrand</h1>
+<p align="center">Extract any brand from a URL</p>
 
 <p align="center">Try it out at <a href="https://openbrand.sh">openbrand.sh</a></p>
 
