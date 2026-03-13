@@ -38,6 +38,8 @@
     "test": "bun test integration_test/"
   },
   "dependencies": {
+    "@supabase/ssr": "^0.9.0",
+    "@supabase/supabase-js": "^2.99.1",
     "@types/probe-image-size": "^7.2.5",
     "cheerio": "^1.2.0",
     "probe-image-size": "^7.2.3",

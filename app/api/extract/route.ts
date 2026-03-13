@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { extractBrandAssets } from "@/src/scraper";
 import type { BrandExtractionResult, ExtractionResponse } from "@/src/types";
-
 export async function POST(request: Request) {
   try {
     const body = await request.json();
