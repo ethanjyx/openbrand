@@ -1,0 +1,37 @@
+{
+  "name": "openbrand-mcp",
+  "version": "0.1.2",
+  "description": "MCP server for extracting brand assets (logos, colors, backdrops) from any website URL",
+  "mcpName": "io.github.ethanjyx/openbrand",
+  "bin": {
+    "openbrand-mcp": "./dist/index.js"
+  },
+  "files": [
+    "dist/"
+  ],
+  "license": "MIT",
+  "homepage": "https://openbrand.sh",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ethanjyx/openbrand.git",
+    "directory": "mcp"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "brand",
+    "logo",
+    "colors",
+    "openbrand"
+  ],
+  "scripts": {
+    "build": "tsup"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.1"
+  },
+  "devDependencies": {
+    "tsup": "^8.5.1",
+    "typescript": "^5"
+  }
+}

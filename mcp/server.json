@@ -1,0 +1,30 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.ethanjyx/openbrand",
+  "title": "OpenBrand",
+  "description": "Extract brand assets (logos, colors, backdrop images, brand name) from any website URL",
+  "repository": {
+    "url": "https://github.com/ethanjyx/openbrand",
+    "source": "github",
+    "subfolder": "mcp"
+  },
+  "version": "0.1.2",
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "openbrand-mcp",
+      "version": "0.1.2",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "name": "OPENBRAND_API_KEY",
+          "description": "Your OpenBrand API key from https://openbrand.sh/dashboard",
+          "isRequired": false,
+          "isSecret": true
+        }
+      ]
+    }
+  ]
+}

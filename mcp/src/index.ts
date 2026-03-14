@@ -40,6 +40,18 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
     };
   }
 
+  const apiKey = process.env.OPENBRAND_API_KEY;
+  if (!apiKey) {
+    return {
+      content: [{
+        type: "text" as const,
+        text: "OPENBRAND_API_KEY is not set. Get your free API key at https://openbrand.sh/dashboard, then update your MCP config:\n\n"
+          + '  claude mcp add --transport stdio --env OPENBRAND_API_KEY=your_key openbrand -- npx -y openbrand-mcp',
+      }],
+      isError: true,
+    };
+  }
+
   const url = args?.url as string;
   if (!url) {
     return {
@@ -50,7 +62,9 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 
   try {
     const apiUrl = `https://openbrand.sh/api/extract?url=${encodeURIComponent(url)}`;
-    const response = await fetch(apiUrl);
+    const response = await fetch(apiUrl, {
+      headers: { Authorization: `Bearer ${apiKey}` },
+    });
     const result = await response.json();
 
     if (!result.success) {

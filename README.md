@@ -31,6 +31,42 @@ const brand = await extractBrandAssets("https://stripe.com");
 
 Server-side only (requires Node.js/Bun for cheerio and sharp).
 
+## As an [MCP server](https://www.npmjs.com/package/openbrand-mcp)
+
+Use OpenBrand as a tool in Claude Code, Cursor, or any MCP-compatible client.
+
+1. Install the MCP server (no API key needed to install):
+
+```bash
+claude mcp add --transport stdio openbrand -- npx -y openbrand-mcp
+```
+
+2. Get your API key from [openbrand.sh/dashboard](https://openbrand.sh/dashboard) and add it:
+
+```bash
+claude mcp add --transport stdio \
+  --env OPENBRAND_API_KEY=your_api_key \
+  openbrand -- npx -y openbrand-mcp
+```
+
+Or add to `.claude/settings.json`:
+
+```json
+{
+  "mcpServers": {
+    "openbrand": {
+      "command": "npx",
+      "args": ["-y", "openbrand-mcp"],
+      "env": {
+        "OPENBRAND_API_KEY": "your_api_key"
+      }
+    }
+  }
+}
+```
+
+Then ask Claude to "extract brand assets from stripe.com" and it will use the `extract_brand_assets` tool automatically.
+
 ## Self-hosting the web app
 
 ```bash

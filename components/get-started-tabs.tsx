@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-const tabs = ["With API Key", "Self Hosting"] as const;
+const tabs = ["With API Key", "Self Hosting", "MCP"] as const;
 type Tab = (typeof tabs)[number];
 
 export function GetStartedTabs({ isLoggedIn = false }: { isLoggedIn?: boolean }) {
@@ -30,7 +30,13 @@ export function GetStartedTabs({ isLoggedIn = false }: { isLoggedIn?: boolean })
         ))}
       </div>
 
-      {active === "With API Key" ? <ApiKeyContent isLoggedIn={isLoggedIn} /> : <SelfHostingContent />}
+      {active === "With API Key" ? (
+        <ApiKeyContent isLoggedIn={isLoggedIn} />
+      ) : active === "MCP" ? (
+        <MCPContent isLoggedIn={isLoggedIn} />
+      ) : (
+        <SelfHostingContent />
+      )}
     </section>
   );
 }
@@ -44,6 +50,47 @@ function ApiKeyContent({ isLoggedIn }: { isLoggedIn: boolean }) {
       >
         {isLoggedIn ? "Manage API keys" : "Login to get API key"}
       </a>
+    </div>
+  );
+}
+
+function MCPContent({ isLoggedIn }: { isLoggedIn: boolean }) {
+  return (
+    <div>
+      <p className="text-neutral-500 mb-3 text-sm">
+        Use OpenBrand as an MCP server in Claude Code, Cursor, or any MCP-compatible client.
+      </p>
+      <p className="text-neutral-500 mb-3 text-sm">
+        1. Install the MCP server:
+      </p>
+      <pre className="p-4 rounded-xl bg-neutral-900 text-neutral-100 text-sm overflow-x-auto font-mono leading-relaxed mb-4">{`claude mcp add --transport stdio openbrand -- npx -y openbrand-mcp`}</pre>
+      <p className="text-neutral-500 mb-3 text-sm">
+        2. {isLoggedIn ? (
+          <><a href="/dashboard" className="underline hover:text-neutral-700">Get your API key</a> from the dashboard and add it:</>
+        ) : (
+          <><a href="/login" className="underline hover:text-neutral-700">Login</a> to get your API key, then add it:</>
+        )}
+      </p>
+      <pre className="p-4 rounded-xl bg-neutral-900 text-neutral-100 text-sm overflow-x-auto font-mono leading-relaxed mb-4">{`claude mcp add --transport stdio \\
+  --env OPENBRAND_API_KEY=your_api_key \\
+  openbrand -- npx -y openbrand-mcp`}</pre>
+      <p className="text-neutral-500 mb-3 text-sm">
+        Or add to your <code className="text-neutral-400 bg-neutral-100 px-1.5 py-0.5 rounded text-xs">.claude/settings.json</code>:
+      </p>
+      <pre className="p-4 rounded-xl bg-neutral-900 text-neutral-100 text-sm overflow-x-auto font-mono leading-relaxed mb-4">{`{
+  "mcpServers": {
+    "openbrand": {
+      "command": "npx",
+      "args": ["-y", "openbrand-mcp"],
+      "env": {
+        "OPENBRAND_API_KEY": "your_api_key"
+      }
+    }
+  }
+}`}</pre>
+      <p className="text-neutral-400 text-sm">
+        Then ask Claude to &ldquo;extract brand assets from stripe.com&rdquo; and it will use the tool automatically.
+      </p>
     </div>
   );
 }
