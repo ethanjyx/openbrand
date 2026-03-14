@@ -101,23 +101,16 @@ export function UrlForm({ initialUrl }: { initialUrl?: string }) {
       </form>
 
       {error && (
-        <div className="px-4 py-3 rounded-xl bg-red-50 border border-red-200 text-red-700 text-sm">
-          {error.code === "ACCESS_BLOCKED" && (
-            <p className="font-medium mb-1">Website Blocked Access</p>
-          )}
-          {error.code === "NOT_FOUND" && (
-            <p className="font-medium mb-1">Page Not Found</p>
-          )}
-          {error.code === "SERVER_ERROR" && (
-            <p className="font-medium mb-1">Target Website Error</p>
-          )}
-          {error.code === "NETWORK_ERROR" && (
-            <p className="font-medium mb-1">Connection Failed</p>
-          )}
-          {error.code === "EMPTY_CONTENT" && (
-            <p className="font-medium mb-1">No Brand Assets Found</p>
-          )}
-          <p>{error.message}</p>
+        <div className="px-4 py-3 rounded-xl bg-neutral-50 border border-neutral-200 text-neutral-600 text-sm">
+          <p>{error.code === "ACCESS_BLOCKED" || error.code === "EMPTY_CONTENT"
+            ? "This website blocked our request. This usually means the site has bot protection (like Cloudflare) enabled. Try a different website."
+            : error.code === "NOT_FOUND"
+            ? "This page wasn't found on the website (404). Double-check the URL and try again."
+            : error.code === "SERVER_ERROR"
+            ? "The website returned a server error. This is an issue on their end — try again later."
+            : error.code === "NETWORK_ERROR"
+            ? "Couldn't connect to the website. Check the URL and try again."
+            : error.message}</p>
         </div>
       )}
 
