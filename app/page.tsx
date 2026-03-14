@@ -31,7 +31,7 @@ export default async function Home({
               images.
             </p>
           </div>
-          <div className="flex items-center gap-4 text-sm">
+          <div className="flex shrink-0 items-center gap-4 text-sm">
             {user && (
               <>
                 <a
@@ -52,7 +52,7 @@ export default async function Home({
               <img
                 alt="GitHub stars"
                 src="https://img.shields.io/github/stars/ethanjyx/openbrand?style=social"
-                className="h-6"
+                className="h-6 w-auto"
               />
             </a>
           </div>
