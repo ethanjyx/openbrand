@@ -58,11 +58,16 @@ npm add openbrand
 ```typescript
 import { extractBrandAssets } from "openbrand";
 
-const brand = await extractBrandAssets("https://stripe.com");
-// brand.brand_name → "Stripe"
-// brand.logos → LogoAsset[]
-// brand.colors → ColorAsset[]
-// brand.backdrop_images → BackdropAsset[]
+const result = await extractBrandAssets("https://stripe.com");
+if (result.ok) {
+  // result.data.brand_name → "Stripe"
+  // result.data.logos → LogoAsset[]
+  // result.data.colors → ColorAsset[]
+  // result.data.backdrop_images → BackdropAsset[]
+} else {
+  // result.error.code → "ACCESS_BLOCKED" | "NOT_FOUND" | "SERVER_ERROR" | ...
+  // result.error.message → human-readable explanation
+}
 ```
 
 ## As an [MCP server](https://www.npmjs.com/package/openbrand-mcp)

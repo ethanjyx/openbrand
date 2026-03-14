@@ -112,11 +112,13 @@ function SelfHostingContent() {
       </p>
       <pre className="p-4 rounded-xl bg-neutral-900 text-neutral-100 text-sm overflow-x-auto font-mono leading-relaxed mb-4">{`import { extractBrandAssets } from "openbrand";
 
-const brand = await extractBrandAssets("https://stripe.com");
-// brand.brand_name → "Stripe"
-// brand.logos → LogoAsset[]
-// brand.colors → ColorAsset[]
-// brand.backdrop_images → BackdropAsset[]`}</pre>
+const result = await extractBrandAssets("https://stripe.com");
+if (result.ok) {
+  // result.data.brand_name → "Stripe"
+  // result.data.logos → LogoAsset[]
+  // result.data.colors → ColorAsset[]
+  // result.data.backdrop_images → BackdropAsset[]
+}`}</pre>
     </div>
   );
 }

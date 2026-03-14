@@ -190,10 +190,14 @@ describe("API key management and authenticated extraction", () => {
     const { extractBrandAssets } = await import("../src");
     const result = await extractBrandAssets("https://example.com");
 
-    expect(result).not.toBeNull();
-    expect(result!.brand_name).toBeString();
-    expect(Array.isArray(result!.logos)).toBe(true);
-    expect(Array.isArray(result!.colors)).toBe(true);
-    expect(Array.isArray(result!.backdrop_images)).toBe(true);
+    // example.com may return EMPTY_CONTENT (minimal site) or succeed
+    if (result.ok) {
+      expect(result.data.brand_name).toBeString();
+      expect(Array.isArray(result.data.logos)).toBe(true);
+      expect(Array.isArray(result.data.colors)).toBe(true);
+      expect(Array.isArray(result.data.backdrop_images)).toBe(true);
+    } else {
+      expect(result.error.code).toBe("EMPTY_CONTENT");
+    }
   }, 30000);
 });

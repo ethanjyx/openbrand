@@ -6,18 +6,19 @@ const VALID_COLOR_USAGES = ["primary", "secondary", "accent", "background", "tex
 
 describe("asset shape validation", () => {
   // Extract once and share across tests
-  let result: Awaited<ReturnType<typeof extractBrandAssets>>;
+  let data: Awaited<ReturnType<typeof extractBrandAssets>> extends { ok: true; data: infer D } ? D : never;
 
   test("extract from github.com for shape tests", async () => {
-    result = await extractBrandAssets("https://github.com");
-    expect(result).not.toBeNull();
+    const result = await extractBrandAssets("https://github.com");
+    expect(result.ok).toBe(true);
+    if (!result.ok) throw new Error("Extraction failed");
+    data = result.data;
   }, 30000);
 
   test("LogoAsset shape — url is valid, type is known, resolution has correct fields", () => {
-    expect(result).not.toBeNull();
-    expect(result!.logos.length).toBeGreaterThanOrEqual(1);
+    expect(data.logos.length).toBeGreaterThanOrEqual(1);
 
-    for (const logo of result!.logos) {
+    for (const logo of data.logos) {
       // url must be a non-empty string (URL or data URI)
       expect(logo.url).toBeString();
       expect(logo.url.length).toBeGreaterThan(0);
@@ -46,9 +47,7 @@ describe("asset shape validation", () => {
   });
 
   test("ColorAsset shape — hex is valid 6-digit, usage is known", () => {
-    expect(result).not.toBeNull();
-
-    for (const color of result!.colors) {
+    for (const color of data.colors) {
       expect(color.hex).toMatch(/^#[0-9a-fA-F]{6}$/);
 
       if (color.usage !== undefined) {
@@ -58,9 +57,7 @@ describe("asset shape validation", () => {
   });
 
   test("BackdropAsset shape — url is valid, description is string when present", () => {
-    expect(result).not.toBeNull();
-
-    for (const backdrop of result!.backdrop_images) {
+    for (const backdrop of data.backdrop_images) {
       expect(backdrop.url).toBeString();
       expect(backdrop.url.length).toBeGreaterThan(0);
       expect(
